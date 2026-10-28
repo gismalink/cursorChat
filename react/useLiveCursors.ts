@@ -277,11 +277,14 @@ export function useLiveCursors({
   }, [currentUserId, normalizedRoomSlug]);
 
   useEffect(() => {
+    clearFadeTimer();
+    editorOpenRef.current = false;
+    editorTextRef.current = "";
     setPeersByUserId({});
     setEditorOpen(false);
     setEditorText("");
     pushCursorState(true);
-  }, [normalizedRoomSlug, pushCursorState]);
+  }, [normalizedRoomSlug, pushCursorState, clearFadeTimer]);
 
   useEffect(() => {
     if (!active) return;
