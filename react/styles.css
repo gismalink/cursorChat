@@ -1,0 +1,122 @@
+/* Live cursors: участники комнаты/волны (portal, см. WEB_UI_Z_INDEX_LAYERS.md). */
+
+.live-cursors-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay-live-cursors);
+  pointer-events: none;
+}
+
+.live-cursor-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.live-cursor-bubble {
+  position: relative;
+}
+
+.live-cursor-bubble.is-peer {
+  width: max-content;
+  max-width: 200px;
+}
+
+.live-cursor-pointer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 14px solid var(--pixel-neon-cyan);
+  filter: drop-shadow(1px 1px 0 var(--pixel-hard-shadow));
+  transform: translate(-2px, -8px) rotate(-18deg);
+}
+
+.live-cursor-bubble.is-peer .live-cursor-pointer {
+  border-left-color: var(--pixel-neon-pink);
+}
+
+.live-cursor-nameplate {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: min(240px, 70vw);
+  padding: 3px 8px 3px 3px;
+  border: var(--border-thin) solid color-mix(in srgb, var(--pixel-neon-cyan) 58%, var(--pixel-border) 42%);
+  background: color-mix(in srgb, var(--pixel-panel) 88%, #000 12%);
+  box-shadow: 2px 2px 0 var(--pixel-hard-shadow);
+}
+
+.live-cursor-bubble.is-peer .live-cursor-nameplate {
+  border-color: color-mix(in srgb, var(--pixel-neon-pink) 58%, var(--pixel-border) 42%);
+}
+
+.live-cursor-avatar {
+  flex: 0 0 auto;
+}
+
+.live-cursor-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: calc(var(--font-size-sm) - 0.12rem);
+  font-weight: 700;
+  color: var(--pixel-text);
+}
+
+.live-cursor-text {
+  position: absolute;
+  top: 38px;
+  left: 14px;
+  width: max-content;
+  max-width: 200px;
+  min-width: 0;
+  padding: 6px 8px;
+  border: var(--border-thin) solid color-mix(in srgb, var(--pixel-border) 62%, var(--pixel-neon-cyan) 38%);
+  background: color-mix(in srgb, var(--pixel-panel-2) 84%, var(--pixel-panel) 16%);
+  box-shadow: 2px 2px 0 var(--pixel-hard-shadow);
+  color: var(--pixel-text);
+  font-size: calc(var(--font-size-sm) - 0.08rem);
+  line-height: 1.35;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+  overflow: hidden;
+}
+
+.live-cursor-input {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: min(200px, 70vw);
+  min-height: 34px;
+  max-height: 200px;
+  padding: 6px 8px;
+  pointer-events: auto;
+  resize: none;
+  overflow: hidden;
+  border: var(--border-strong) solid color-mix(in srgb, var(--pixel-neon-cyan) 62%, var(--pixel-border) 38%);
+  background: color-mix(in srgb, var(--pixel-panel) 90%, #000 10%);
+  box-shadow:
+    0 0 0 2px var(--pixel-bg),
+    2px 2px 0 var(--pixel-hard-shadow);
+  color: var(--pixel-text);
+  font: inherit;
+  font-size: calc(var(--font-size-sm) - 0.08rem);
+  line-height: 1.35;
+}
+
+.live-cursor-input:focus-visible {
+  outline: none;
+  border-color: var(--pixel-neon-cyan);
+}
+
+

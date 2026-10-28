@@ -1,0 +1,89 @@
+/* Live multi-user cursors (Figma-like). */
+#live-cursors-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.live-cursor {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-9999px, -9999px);
+    width: 0;
+    height: 0;
+    max-width: 320px;
+    pointer-events: none;
+}
+
+.live-cursor .name {
+    position: absolute;
+    left: 12px;
+    top: 14px;
+    transform: none;
+    display: inline-block;
+    max-width: 240px;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    background-color: #2d0f27;
+    color: #ffffff;
+    border: 1px solid #cf4a86;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.live-cursor.self .name {
+    display: none;
+}
+
+.live-cursor .text {
+    position: absolute;
+    left: 12px;
+    top: 40px;
+    display: none;
+    width: max-content;
+    max-width: 300px;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background-color: #2d0f27;
+    color: #ffffff;
+    border: 1px solid #38002e;
+    white-space: pre-wrap;
+    overflow: visible;
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+.live-cursor .input {
+    position: absolute;
+    left: 12px;
+    top: 40px;
+    width: 300px;
+    max-width: 300px;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background-color: #2d0f27;
+    color: #ffffff;
+    border: 1px solid #cf4a86;
+    outline: none;
+    resize: none;
+    min-height: 32px;
+    height: 32px;
+    overflow: hidden;
+}
+
+.live-cursor.fade {
+    opacity: 0;
+    transition: opacity 360ms ease;
+}
+

@@ -137,6 +137,8 @@ export function useLiveCursors({
 
   const activeRef = useRef(active);
   activeRef.current = active;
+  const roomRef = useRef(normalizedRoomSlug);
+  roomRef.current = normalizedRoomSlug;
 
   const scheduleSelfPointerPaint = useCallback(() => {
     if (selfPointerPaintRafRef.current !== null) {
@@ -150,7 +152,7 @@ export function useLiveCursors({
   }, []);
 
   const pushCursorState = useCallback((force = false, kind: "pointer" | "text" = "pointer") => {
-    if (!activeRef.current) {
+    if (!activeRef.current || roomRef.current !== normalizedRoomSlug) {
       return;
     }
 
@@ -212,12 +214,14 @@ export function useLiveCursors({
     }
 
     clearFadeTimer();
+    editorOpenRef.current = true;
     setEditorOpen(true);
     pushCursorState(true);
   }, [active, clearFadeTimer, pushCursorState]);
 
   const closeEditor = useCallback(() => {
     clearFadeTimer();
+    editorOpenRef.current = false;
     editorTextRef.current = "";
     setEditorOpen(false);
     setEditorText("");
@@ -310,6 +314,7 @@ export function useLiveCursors({
 
     const onVisibilityChange = () => {
       const nextVisible = document.visibilityState === "visible";
+      tabVisibleRef.current = nextVisible;
       setTabVisible(nextVisible);
       if (!nextVisible) {
         closeEditor();

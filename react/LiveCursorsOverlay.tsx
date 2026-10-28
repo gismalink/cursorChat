@@ -1,7 +1,7 @@
 /**
  * LiveCursorsOverlay.tsx — плавающие курсоры участников комнаты с bubble-сообщениями.
  */
-import { useEffect, useRef, type CSSProperties, type KeyboardEvent } from "react";
+import { useEffect, useRef, type ReactNode, type CSSProperties, type KeyboardEvent } from "react";
 import { createPortal } from "react-dom";
 import type { LiveCursorPeer } from "./useLiveCursors";
 
@@ -9,6 +9,7 @@ import type { LiveCursorPeer } from "./useLiveCursors";
 type LiveCursorSelfBubble = {
   open: boolean;
   text: string;
+  renderAvatar?: (name: string, config?: Record<string, unknown>) => ReactNode;
   userName: string;
   avatarConfig?: Record<string, unknown>;
   x: number;
@@ -17,6 +18,7 @@ type LiveCursorSelfBubble = {
 };
 
 type LiveCursorsOverlayProps = {
+  renderAvatar?: (name: string, config?: Record<string, unknown>) => ReactNode;
   active: boolean;
   peers: LiveCursorPeer[];
   selfBubble: LiveCursorSelfBubble;
@@ -37,6 +39,7 @@ function placeBubbleStyle(x: number, y: number): CSSProperties {
 }
 
 function LiveCursorBubble({
+  renderAvatar,
   userName,
   avatarConfig,
   text,
@@ -50,6 +53,7 @@ function LiveCursorBubble({
   onEditorKeyDown,
   textareaRef
 }: {
+  renderAvatar?: (name: string, config?: Record<string, unknown>) => ReactNode;
   userName: string;
   avatarConfig?: Record<string, unknown>;
   text: string;
@@ -70,7 +74,7 @@ function LiveCursorBubble({
       {!isSelf ? <span className="live-cursor-pointer" aria-hidden="true" /> : null}
       {!isSelf ? (
         <div className="live-cursor-nameplate">
-          <span className="live-cursor-avatar">{userName.slice(0, 1)}</span>
+          {renderAvatar ? renderAvatar(userName, avatarConfig) : <span className="live-cursor-avatar">{userName.slice(0, 1)}</span>}
           <span className="live-cursor-name">{userName}</span>
         </div>
       ) : null}
@@ -99,6 +103,7 @@ function LiveCursorBubble({
 }
 
 export function LiveCursorsOverlay({
+  renderAvatar,
   active,
   peers,
   selfBubble,
@@ -139,6 +144,7 @@ export function LiveCursorsOverlay({
           style={placeBubbleStyle(peer.x, peer.y)}
         >
           <LiveCursorBubble
+            renderAvatar={renderAvatar}
             userName={peer.userName}
             avatarConfig={peer.avatarConfig}
             text={peer.text}
@@ -152,6 +158,7 @@ export function LiveCursorsOverlay({
           style={placeBubbleStyle(selfBubble.x, selfBubble.y)}
         >
           <LiveCursorBubble
+            renderAvatar={renderAvatar}
             userName={selfBubble.userName}
             avatarConfig={selfBubble.avatarConfig}
             text={selfBubble.text}

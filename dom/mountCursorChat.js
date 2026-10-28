@@ -139,6 +139,7 @@ export function mountCursorChat({ getWsUrl, loadUser, subscribeUser, enabled = t
     }
 
     function onPointerMove(e) {
+        if (!enabled) return;
         const w = Math.max(1, document.documentElement.clientWidth);
         const h = Math.max(1, document.documentElement.clientHeight);
         pointerX01 = clamp01(e.clientX / w);
