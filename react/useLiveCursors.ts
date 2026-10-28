@@ -94,6 +94,8 @@ export function useLiveCursors({
     typeof document === "undefined" ? true : document.visibilityState === "visible"
   ));
 
+  const sendWsEventRef = useRef(sendWsEvent);
+  sendWsEventRef.current = sendWsEvent;
   const editorOpenRef = useRef(editorOpen);
   const editorTextRef = useRef(editorText);
   const selfPointerRef = useRef(selfPointer);
@@ -182,14 +184,14 @@ export function useLiveCursors({
     }
 
     lastSendAtRef.current = now;
-    sendWsEvent("presence.cursor", {
+    sendWsEventRef.current("presence.cursor", {
       roomSlug: normalizedRoomSlug,
       x: clampUnit(pointer.x),
       y: clampUnit(pointer.y),
       text: editorOpenRef.current ? editorTextRef.current.slice(0, MAX_CURSOR_TEXT_LEN) : "",
       visible: tabVisibleRef.current
     }, { maxRetries: 0, trackAck: false });
-  }, [active, normalizedRoomSlug, sendWsEvent]);
+  }, [active, normalizedRoomSlug]);
 
   const clearFadeTimer = useCallback(() => {
     if (fadeTimerRef.current !== null) {
@@ -289,9 +291,9 @@ export function useLiveCursors({
   useEffect(() => {
     if (!active) return;
     return () => {
-      sendWsEvent("presence.cursor", { roomSlug: normalizedRoomSlug, x: 0, y: 0, text: "", visible: false }, { maxRetries: 0, trackAck: false });
+      sendWsEventRef.current("presence.cursor", { roomSlug: normalizedRoomSlug, x: 0, y: 0, text: "", visible: false }, { maxRetries: 0, trackAck: false });
     };
-  }, [active, normalizedRoomSlug, sendWsEvent]);
+  }, [active, normalizedRoomSlug]);
 
   useEffect(() => {
     if (!active) {
